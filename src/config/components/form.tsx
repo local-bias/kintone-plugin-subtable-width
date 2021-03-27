@@ -13,8 +13,8 @@ const Component: VFCX = ({ className }) => {
   return (
     <>
       <div className={className}>
-        {storage.conditions.map((condition, index) => (
-          <FormRow key={index} condition={condition} index={index} />
+        {storage.conditions.map((_, index) => (
+          <FormRow key={index} index={index} />
         ))}
         <Button
           variant='outlined'

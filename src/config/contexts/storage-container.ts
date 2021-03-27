@@ -32,7 +32,7 @@ type Action =
       type: 'updateWidth';
       index: number;
       fieldIndex: number;
-      value: number;
+      value: number | number[];
     }
   | {
       type: 'updateCode';
@@ -80,10 +80,14 @@ const reducer: Reducer<State, Action> = (state, action) => {
       return { ...state, storage: { ...state.storage, conditions: newCondition } };
     }
     case 'updateWidth': {
+      const { value, index } = action;
       const newCondition = [...state.storage.conditions];
-      const newFields = newCondition[action.index].fields;
-      newFields[action.fieldIndex] = { ...newFields[action.fieldIndex], width: action.value };
-      newCondition[action.index] = { ...newCondition[action.index], fields: newFields };
+      const newFields = newCondition[index].fields;
+      newFields[action.fieldIndex] = {
+        ...newFields[action.fieldIndex],
+        width: typeof value === 'number' ? value : value[0],
+      };
+      newCondition[index] = { ...newCondition[index], fields: newFields };
 
       return { ...state, storage: { ...state.storage, conditions: newCondition } };
     }
@@ -125,7 +129,8 @@ const hooks = (initialState: string = '') => {
   const addCondition = useCallback(() => dispatch({ type: 'addCondition' }), []);
   const removeCondition = useCallback((index: number) => dispatch({ type: 'removeCondition', index }), []);
   const updateWidth = useCallback(
-    (index: number, fieldIndex: number, value: number) => dispatch({ type: 'updateWidth', index, fieldIndex, value }),
+    (index: number, fieldIndex: number, value: number | number[]) =>
+      dispatch({ type: 'updateWidth', index, fieldIndex, value }),
     []
   );
   const updateCode = useCallback(

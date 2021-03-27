@@ -1,8 +1,7 @@
-import React, { useCallback, VFCX } from 'react';
+import React, { memo, useCallback, VFCX, VFC } from 'react';
 import styled from '@emotion/styled';
 import {
   Accordion,
-  AccordionActions,
   AccordionDetails,
   AccordionSummary,
   Chip,
@@ -19,18 +18,19 @@ import { FieldsContainer, StorageContainer } from '../contexts';
 import SubtableFieldRow from './subtable-field-row';
 
 type Props = {
-  condition: PluginCondition;
   index: number;
 };
 
-const Component: VFCX<Props> = ({ className, condition, index }) => {
-  const { storage, dispatch, removeCondition } = StorageContainer.useContainer();
+const Component: VFCX<Props> = memo(({ className, index }) => {
+  const { storage, dispatch } = StorageContainer.useContainer();
   const { fields, subtableCodes } = FieldsContainer.useContainer();
 
   const onChangeTraget = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
     event.stopPropagation();
     dispatch({ type: 'updateCondition', index, name: 'targetSubtableCode', value: event.target.value });
   }, []);
+
+  const condition = storage.conditions[index];
 
   return (
     <div className={className}>
@@ -43,6 +43,7 @@ const Component: VFCX<Props> = ({ className, condition, index }) => {
             <>
               {field.code && (
                 <Chip
+                  key={field.code}
                   size='small'
                   color='primary'
                   label={(fields[condition.targetSubtableCode] as any)?.fields[field.code]?.label}
@@ -73,14 +74,10 @@ const Component: VFCX<Props> = ({ className, condition, index }) => {
           <SubtableFieldRow index={index} target={condition.targetSubtableCode} />
         </AccordionDetails>
       </Accordion>
-      {storage.conditions.length > 1 && (
-        <IconButton onClick={() => removeCondition(index)}>
-          <DeleteIcon fontSize='small' />
-        </IconButton>
-      )}
+      <DeleteButton index={index} />
     </div>
   );
-};
+});
 
 const StyledComponent = styled(Component)`
   display: flex;
@@ -99,3 +96,16 @@ const StyledComponent = styled(Component)`
 `;
 
 export default StyledComponent;
+
+const DeleteButton: VFC<{ index: number }> = ({ index }) => {
+  const { storage, removeCondition } = StorageContainer.useContainer();
+  return (
+    <>
+      {storage.conditions.length > 1 && (
+        <IconButton onClick={() => removeCondition(index)}>
+          <DeleteIcon fontSize='small' />
+        </IconButton>
+      )}
+    </>
+  );
+};

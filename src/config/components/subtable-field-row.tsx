@@ -1,4 +1,4 @@
-import React, { useState, VFCX } from 'react';
+import React, { memo, useCallback, useState, VFCX } from 'react';
 import styled from '@emotion/styled';
 import { MenuItem, Slider, TextField, Typography, Button, IconButton } from '@material-ui/core';
 import AddIcon from '@material-ui/icons/Add';
@@ -11,7 +11,7 @@ type Props = {
   index: number;
 };
 
-const Component: VFCX<Props> = ({ className, target, index }) => {
+const Component: VFCX<Props> = memo(({ className, target, index }) => {
   const { fields } = FieldsContainer.useContainer();
   const { storage, updateWidth, updateCode, addField, removeField } = StorageContainer.useContainer();
 
@@ -19,20 +19,14 @@ const Component: VFCX<Props> = ({ className, target, index }) => {
 
   const subFields = (fields[target] as any)?.fields || {};
 
-  const onChangeWidth = (fieldIndex: number, value: number | number[]) => {
-    if (typeof value === 'number') {
-      updateWidth(index, fieldIndex, value);
-    } else {
-      updateWidth(index, fieldIndex, value[0]);
-    }
-  };
+  const onChangeWidth = (fieldIndex: number, value: number | number[]) => updateWidth(index, fieldIndex, value);
 
   const onChangeCode = (fieldIndex: number, value: string) => updateCode(index, fieldIndex, value);
 
   return (
     <div className={className}>
       {condition.fields.map((field, fieldIndex) => (
-        <div className='item'>
+        <div className='item' key={`${field}_${fieldIndex}`}>
           <TextField
             select
             value={field.code}
@@ -42,7 +36,9 @@ const Component: VFCX<Props> = ({ className, target, index }) => {
             onChange={(e) => onChangeCode(fieldIndex, e.target.value)}
           >
             {Object.keys(subFields).map((subFieldKey) => (
-              <MenuItem value={subFields[subFieldKey].code}>{subFields[subFieldKey].label}</MenuItem>
+              <MenuItem key={subFieldKey} value={subFields[subFieldKey].code}>
+                {subFields[subFieldKey].label}
+              </MenuItem>
             ))}
           </TextField>
           <div>
@@ -66,7 +62,7 @@ const Component: VFCX<Props> = ({ className, target, index }) => {
       </Button>
     </div>
   );
-};
+});
 
 const StyledComponent = styled(Component)`
   display: flex;
