@@ -1,4 +1,4 @@
-import React, { memo, useCallback, useState, VFCX } from 'react';
+import React, { memo, VFCX } from 'react';
 import styled from '@emotion/styled';
 import { MenuItem, Slider, TextField, Typography, Button, IconButton } from '@material-ui/core';
 import AddIcon from '@material-ui/icons/Add';
@@ -19,10 +19,6 @@ const Component: VFCX<Props> = memo(({ className, target, index }) => {
 
   const subFields = (fields[target] as any)?.fields || {};
 
-  const onChangeWidth = (fieldIndex: number, value: number | number[]) => updateWidth(index, fieldIndex, value);
-
-  const onChangeCode = (fieldIndex: number, value: string) => updateCode(index, fieldIndex, value);
-
   return (
     <div className={className}>
       {condition.fields.map((field, fieldIndex) => (
@@ -33,7 +29,7 @@ const Component: VFCX<Props> = memo(({ className, target, index }) => {
             size='small'
             label='サブテーブルの項目'
             style={{ minWidth: '200px', marginRight: '16px' }}
-            onChange={(e) => onChangeCode(fieldIndex, e.target.value)}
+            onChange={(e) => updateCode(index, fieldIndex, e.target.value)}
           >
             {Object.keys(subFields).map((subFieldKey) => (
               <MenuItem key={subFieldKey} value={subFields[subFieldKey].code}>
@@ -49,7 +45,7 @@ const Component: VFCX<Props> = memo(({ className, target, index }) => {
               min={0}
               max={1000}
               value={field.width}
-              onChange={(e, value) => onChangeWidth(fieldIndex, value)}
+              onChange={(_, value) => updateWidth(index, fieldIndex, value)}
             />
           </div>
           <IconButton onClick={() => removeField(index, fieldIndex)}>
