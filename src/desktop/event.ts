@@ -1,17 +1,16 @@
 import { cx, css } from '@emotion/css';
 
-import { restoreStorage } from '@common/plugin';
-import { getSubtableFields } from '@common/cybozu';
+import { restorePluginConfig } from '@/lib/plugin';
+import { getMetaSubtableFields_UNSTABLE } from '@konomi-app/kintone-utilities';
+import { listener } from '@/lib/listener';
 
-const events: EventType[] = ['app.record.index.show'];
-
-const action: PluginAction = async (event, pluginId) => {
-  const storage = restoreStorage(pluginId);
+listener.add(['app.record.index.show'], async (event) => {
+  const storage = restorePluginConfig();
 
   const csss = [];
 
   for (const { targetSubtableCode, fields } of storage.conditions) {
-    const subTableFields = getSubtableFields(targetSubtableCode);
+    const subTableFields = getMetaSubtableFields_UNSTABLE(targetSubtableCode);
 
     if (!subTableFields) {
       continue;
@@ -42,6 +41,4 @@ const action: PluginAction = async (event, pluginId) => {
 
   document.body.classList.add(cx(...csss));
   return event;
-};
-
-export default { events, action };
+});

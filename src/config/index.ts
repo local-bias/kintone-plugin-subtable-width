@@ -1,3 +1,5 @@
-import main from './main';
+import '@/lib/global';
+import { updateVersion } from '@/lib/local-storage';
+updateVersion();
 
-((PLUGIN_ID) => main(PLUGIN_ID))(kintone.$PLUGIN_ID);
+import './main';
