@@ -1,7 +1,7 @@
 import { useCallback, Reducer, useReducer } from 'react';
 import { createContainer } from 'unstated-next';
 
-import { restoreStorage, storeStorage, getNewCondition, getNewFieldCondition } from '@common/plugin';
+import { restoreStorage, storeStorage, getNewCondition, getNewFieldCondition } from '@/common/plugin';
 
 type State = {
   storage: PluginStorage;

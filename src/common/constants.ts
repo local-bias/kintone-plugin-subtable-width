@@ -1,6 +1,6 @@
-import manifest from '../../plugin/manifest.json';
+import config from "plugin.config.mjs";
 
-export const PLUGIN_NAME = manifest.name.ja;
+export const PLUGIN_NAME = config.manifest.base.name.ja;
 
 export const URL_HOMEPAGE = 'https://ribbit.icu';
 export const URL_TWITTER = 'https://twitter.com/LbRibbit';

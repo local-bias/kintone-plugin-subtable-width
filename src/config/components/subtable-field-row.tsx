@@ -1,8 +1,8 @@
 import React, { memo, VFCX } from 'react';
 import styled from '@emotion/styled';
-import { MenuItem, Slider, TextField, Typography, Button, IconButton } from '@material-ui/core';
-import AddIcon from '@material-ui/icons/Add';
-import DeleteIcon from '@material-ui/icons/Delete';
+import { MenuItem, Slider, TextField, Typography, Button, IconButton } from '@mui/material';
+import AddIcon from '@mui/icons-material/Add';
+import DeleteIcon from '@mui/icons-material/Delete';
 
 import { FieldsContainer, StorageContainer } from '../contexts';
 

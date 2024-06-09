@@ -1,9 +1,3 @@
-declare namespace kintone {
-  /**
-   * プラグインID
-   */
-  const $PLUGIN_ID: string;
-}
 
 /**
  * プラグインがアプリ単位で保存する設定情報

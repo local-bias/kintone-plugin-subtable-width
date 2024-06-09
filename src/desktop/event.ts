@@ -1,7 +1,7 @@
 import { cx, css } from '@emotion/css';
 
-import { restoreStorage } from '@common/plugin';
-import { getSubtableFields } from '@common/cybozu';
+import { restoreStorage } from '@/common/plugin';
+import { getMetaSubtableFields_UNSTABLE } from '@konomi-app/kintone-utilities';
 
 const events: EventType[] = ['app.record.index.show'];
 
@@ -11,7 +11,7 @@ const action: PluginAction = async (event, pluginId) => {
   const csss = [];
 
   for (const { targetSubtableCode, fields } of storage.conditions) {
-    const subTableFields = getSubtableFields(targetSubtableCode);
+    const subTableFields = getMetaSubtableFields_UNSTABLE(targetSubtableCode);
 
     if (!subTableFields) {
       continue;

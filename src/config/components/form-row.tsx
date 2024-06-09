@@ -10,9 +10,9 @@ import {
   MenuItem,
   TextField,
   Typography,
-} from '@material-ui/core';
-import DeleteIcon from '@material-ui/icons/Delete';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+} from '@mui/material';
+import DeleteIcon from '@mui/icons-material/Delete';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
 import { FieldsContainer, StorageContainer } from '../contexts';
 import SubtableFieldRow from './subtable-field-row';

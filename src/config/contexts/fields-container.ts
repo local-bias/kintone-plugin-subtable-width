@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react';
 import { createContainer } from 'unstated-next';
-import { Properties } from '@kintone/rest-api-client/lib/client/types/app/form';
 
 import { getAppFields } from '../actions';
+import { kintoneAPI } from '@konomi-app/kintone-utilities';
 
 const hooks = (initialState = '') => {
-  const [fields, setFields] = useState<Properties>({});
+  const [fields, setFields] = useState<kintoneAPI.FieldProperties>({});
   const [subtableCodes, setSubtableCodes] = useState<string[]>([]);
 
   useEffect(() => {

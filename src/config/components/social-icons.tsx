@@ -1,15 +1,15 @@
-import React from 'react';
+import React, { PropsWithChildren } from 'react';
 import styled from '@emotion/styled';
-import { Fab, Tooltip } from '@material-ui/core';
-import GitHubIcon from '@material-ui/icons/GitHub';
-import TwitterIcon from '@material-ui/icons/Twitter';
-import HomeIcon from '@material-ui/icons/Home';
+import { Fab, Tooltip } from '@mui/material';
+import GitHubIcon from '@mui/icons-material/GitHub';
+import TwitterIcon from '@mui/icons-material/Twitter';
+import HomeIcon from '@mui/icons-material/Home';
 
-import { URL_HOMEPAGE, URL_TWITTER, URL_GITHUB } from '@common/constants';
+import { URL_HOMEPAGE, URL_TWITTER, URL_GITHUB } from '@/common/constants';
 
 const openNewTab = (path: string) => window.open(path, '_blank');
 
-const Icon: React.FC<{ title: string; url: string }> = ({ children, title, url }) => (
+const Icon: React.FC<PropsWithChildren<{ title: string; url: string }>> = ({ children, title, url }) => (
   <Tooltip title={title} aria-label={title}>
     <Fab size='small' onClick={() => openNewTab(url)}>
       {children as any}

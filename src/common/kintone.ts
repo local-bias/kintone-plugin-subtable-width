@@ -1,4 +1,4 @@
-import { format } from '@common/date';
+import { format } from '@/common/date';
 /**
  * 実行されている環境がモバイル端末である場合はTrueを返却します
  * @param eventType イベントタイプ
