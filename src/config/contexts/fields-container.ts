@@ -1,8 +1,6 @@
 import { useEffect, useState } from 'react';
 import { createContainer } from 'unstated-next';
-
-import { getAppFields } from '../actions';
-import { kintoneAPI } from '@konomi-app/kintone-utilities';
+import { getFormFields, kintoneAPI } from '@konomi-app/kintone-utilities';
 
 const hooks = (initialState = '') => {
   const [fields, setFields] = useState<kintoneAPI.FieldProperties>({});
@@ -10,10 +8,12 @@ const hooks = (initialState = '') => {
 
   useEffect(() => {
     (async () => {
-      const appFields = await getAppFields(String(kintone.app.getId()));
-      const subtables = Object.keys(appFields).filter((key) => appFields[key].type === 'SUBTABLE');
+      const { properties } = await getFormFields({ app: String(kintone.app.getId()) });
+      const subtables = Object.keys(properties).filter(
+        (key) => properties[key].type === 'SUBTABLE'
+      );
 
-      setFields(appFields);
+      setFields(properties);
       setSubtableCodes(subtables);
     })();
   }, []);
